@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio #3</title>
+</head>
+
+<body>
+
+    <h1>Calculadora de Estadísticas</h1>
+
+    
+    <h2>Ingresar Lista de Números (separados por comas)</h2>
+    <textarea id="inputNumbers" rows="4" cols="50"></textarea>
+    <br><br>
+
+    <button onclick="calcularEstadisticas()">Calcular</button>
+
+    
+    <h2>Resultados</h2>
+    <p><strong>Media:</strong> <span id="media"></span></p>
+    <p><strong>Mediana:</strong> <span id="mediana"></span></p>
+    <p><strong>Desviación Estándar:</strong> <span id="desviacion"></span></p>
+
+    <script>
+        function calcularEstadisticas() {
+            var inputNumbers = document.getElementById("inputNumbers").value;
+            var numbers = inputNumbers.split(',').map(Number);
+
+            if (numbers.some(isNaN)) {
+                alert("Ingresa números válidos separados por comas.");
+                return;
+            }
+
+            media = calcularMedia(numbers);
+            var mediana = calcularMediana(numbers);
+            var desviacion = calcularDesviacionEstandar(numbers);
+
+            document.getElementById("media").textContent = media.toFixed(2);
+            document.getElementById("mediana").textContent = mediana.toFixed(2);
+            document.getElementById("desviacion").textContent = desviacion.toFixed(2);
+        }
+
+        function calcularMedia(numbers) {
+            var sum = numbers.reduce((acc, num) => acc + num, 0);
+            return sum / numbers.length;
+        }
+
+        function calcularMediana(numbers) {
+            var sortedNumbers = [...numbers].sort((a, b) => a - b);
+            var middle = Math.floor(sortedNumbers.length / 2);
+
+            if (sortedNumbers.length % 2 === 0) {
+                return (sortedNumbers[middle - 1] + sortedNumbers[middle]) / 2;
+            } else {
+                return sortedNumbers[middle];
+            }
+        }
+
+        function calcularDesviacionEstandar(numbers) {
+            var media = calcularMedia(numbers);
+            var sumSquaredDiff = numbers.reduce((acc, num) => acc + Math.pow(num - media, 2), 0);
+            var variance = sumSquaredDiff / numbers.length;
+            return Math.sqrt(variance);
+        }
+    </script>
+
+</body>
+
+</html>

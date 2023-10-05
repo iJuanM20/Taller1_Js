@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio #9</title>
+</head>
+<body>
+
+    <h1>Generador de Contraseñas Seguras</h1>
+    
+    <form id="password">
+        <label for="longitud">Longitud de la Contraseña:</label>
+        <input type="number" id="longitud" min="8" step="1" required><br><br>
+        
+        <label for="mayusculas">Incluir Mayúsculas:</label>
+        <input type="checkbox" id="mayusculas"><br><br>
+        
+        <label for="minusculas">Incluir Minúsculas:</label>
+        <input type="checkbox" id="minusculas"><br><br>
+        
+        <label for="numeros">Incluir Números:</label>
+        <input type="checkbox" id="numeros"><br><br>
+        
+        <label for="caracteresEspeciales">Incluir Caracteres Especiales:</label>
+        <input type="checkbox" id="caracteresEspeciales"><br><br>
+        
+        <button type="button" onclick="generarContraseña()">Generar Contraseña</button>
+    </form>
+    
+    <h2>Contraseña Generada:</h2>
+    <p id="contraseñaGenerada"></p>
+
+    <script>
+        // Función para generar caracteres aleatorios
+        function generarCaracterAleatorio(charset) {
+            var randomIndex = Math.floor(Math.random() * charset.length);
+            return charset[randomIndex];
+        }
+
+        function generarContraseña() {
+            var longitud = parseInt(document.getElementById("longitud").value);
+            var incluirMayusculas = document.getElementById("mayusculas").checked;
+            var incluirMinusculas = document.getElementById("minusculas").checked;
+            var incluirNumeros = document.getElementById("numeros").checked;
+            var incluirCaracteresEspeciales = document.getElementById("caracteresEspeciales").checked;
+
+            let charset = "";
+            
+            if (incluirMayusculas) {
+                charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            }
+            if (incluirMinusculas) {
+                charset += "abcdefghijklmnopqrstuvwxyz";
+            }
+            if (incluirNumeros) {
+                charset += "0123456789";
+            }
+            if (incluirCaracteresEspeciales) {
+                charset += "!@#$%^&*()-_=+[]{}|;:'\",.<>?/";
+            }
+
+            if (charset === "") {
+                alert("Debes seleccionar al menos un tipo de carácter.");
+                return;
+            }
+
+            let contraseñaGenerada = "";
+
+            for (let i = 0; i < longitud; i++) {
+                var caracterAleatorio = generarCaracterAleatorio(charset);
+                contraseñaGenerada += caracterAleatorio;
+            }
+
+            document.getElementById("contraseñaGenerada").textContent = contraseñaGenerada;
+        }
+    </script>
+
+    
+</body>
+</html>

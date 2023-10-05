@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio #5</title>
+</head>
+<body>
+
+    <h1>Tabla de Multiplicar Personalizada</h1>
+    
+    <form>
+        <label for="numero">Selecciona un número:</label>
+        <input type="number" id="numero" min="1" max="20" step="1">
+        
+        <label for="filas">Número de filas a mostrar:</label>
+        <input type="number" id="filas" min="1" max="10" step="1">
+        
+        <button type="button" onclick="generarTabla()">Generar</button>
+    </form>
+    
+    <h2>Tabla de Multiplicar</h2>
+    <div id="tablaMultiplicar"></div>
+
+    <script>
+        function generarTabla() {var numero = parseInt(document.getElementById("numero").value);
+            var filas = parseInt(document.getElementById("filas").value);
+            var tablaMultiplicar = document.getElementById("tablaMultiplicar");
+
+            
+            if (isNaN(numero) || numero < 1 || numero > 20) {
+                tablaMultiplicar.innerHTML = "Por favor, ingresa un número válido entre 1 y 20.";
+            } else if (isNaN(filas) || filas < 1 || filas > 10) {
+                tablaMultiplicar.innerHTML = "Por favor, ingresa un número de filas válido entre 1 y 10.";
+            } else {
+               
+                let tablaHTML = "<table border='1'>";
+                tablaHTML += `<tr><th>Multiplicando</th><th>Resultado</th></tr>`;
+
+                for (let i = 1; i <= filas; i++) {
+                    var resultado = numero * i;
+                    tablaHTML += `<tr><td>${numero} x ${i}</td><td>${resultado}</td></tr>`;
+                }
+
+                tablaHTML += "</table>";
+
+                tablaMultiplicar.innerHTML = tablaHTML;
+            }
+        }
+    </script>
+    
+</body>
+</html>

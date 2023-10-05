@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio #2</title>
+</head>
+<body>
+
+    <h1>Sistema de Registro de Estudiantes</h1>
+    
+    <h2>Agregar Estudiante</h2>
+    <form id="student">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required><br><br>
+        
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" required><br><br>
+        
+        <label for="identificacion">Número de Identificación:</label>
+        <input type="text" id="identificacion" required><br><br>
+        
+        <button type="button" onclick="agregarEstudiante()">Agregar Estudiante</button>
+    </form>
+    
+    
+    <h2>Buscar Estudiante</h2>
+    <label for="buscarIdentificacion">Número de Identificación:</label>
+    <input type="text" id="buscarIdentificacion">
+    <button type="button" onclick="buscarEstudiante()">Buscar</button>
+    
+    <h2>Información del Estudiante</h2>
+    <div id="resultado"></div>
+
+    <script>
+        var estudiantes = [];
+
+        function agregarEstudiante() {
+            var nombre = document.getElementById("nombre").value;
+            var edad = document.getElementById("edad").value;
+            var identificacion = document.getElementById("identificacion").value;
+
+            estudiantes.push({ nombre, edad, identificacion });
+        }
+
+        function buscarEstudiante() {
+            var buscarIdentificacion = document.getElementById("buscarIdentificacion").value;
+            var resultado = document.getElementById("resultado");
+            resultado.innerHTML = "";
+
+            const estudianteEncontrado = estudiantes.find(estudiante => estudiante.identificacion === buscarIdentificacion);
+
+            if (estudianteEncontrado) {
+                resultado.innerHTML += `<p><strong>Nombre:</strong> ${estudianteEncontrado.nombre}</p>`;
+                resultado.innerHTML += `<p><strong>Edad:</strong> ${estudianteEncontrado.edad}</p>`;
+                resultado.innerHTML += `<p><strong>Número de Identificación:</strong> ${estudianteEncontrado.identificacion}</p>`;
+            } else {
+                resultado.innerHTML = "Estudiante no encontrado.";
+            }
+        }
+    </script>
+    
+</body>
+</html>

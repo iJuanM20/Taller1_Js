@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio #4</title>
+</head>
+<body>
+    
+
+    <h1>Generador de Tabla de Multiplicar</h1>
+    
+    <form>
+        <label for="numero">Selecciona un número:</label>
+        <input type="number" id="numero" min="1" max="20" step="1">
+        <button type="button" onclick="generarTabla()">Generar</button>
+    </form>
+    
+    <h2>Tabla de Multiplicar</h2>
+    <div id="tablaMultiplicar"></div>
+
+    <script>
+        function generarTabla() {
+            var numero = parseInt(document.getElementById("numero").value);
+            var tablaMultiplicar = document.getElementById("tablaMultiplicar");
+
+            
+            if (isNaN(numero) || numero < 1 || numero > 20) {
+                tablaMultiplicar.innerHTML = "Por favor, ingresa un número válido entre 1 y 20.";
+            } else {
+                
+                let tablaHTML = "<table border='1'>";
+                tablaHTML += "<tr><th>Multiplicando</th><th>Resultado</th></tr>";
+
+                for (let i = 1; i <= 10; i++) {
+                    const resultado = numero * i;
+                    tablaHTML += `<tr><td>${numero} x ${i}</td><td>${resultado}</td></tr>`;
+                }
+
+                tablaHTML += "</table>";
+
+                tablaMultiplicar.innerHTML = tablaHTML;
+            }
+        }
+    </script>
+</body>
+</html>
