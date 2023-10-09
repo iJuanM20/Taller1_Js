@@ -7,75 +7,52 @@
 </head>
 <body>
 
-    <h1>Generador de Contraseñas Seguras</h1>
+    <h1>Calculadora de Estadísticas de Calificaciones</h1>
     
-    <form id="password">
-        <label for="longitud">Longitud de la Contraseña:</label>
-        <input type="number" id="longitud" min="8" step="1" required><br><br>
+    <form id="gradesForm">
+        <label for="grades">Ingresar Calificaciones (separadas por comas):</label>
+        <input type="text" id="grades" required><br><br>
         
-        <label for="mayusculas">Incluir Mayúsculas:</label>
-        <input type="checkbox" id="mayusculas"><br><br>
-        
-        <label for="minusculas">Incluir Minúsculas:</label>
-        <input type="checkbox" id="minusculas"><br><br>
-        
-        <label for="numeros">Incluir Números:</label>
-        <input type="checkbox" id="numeros"><br><br>
-        
-        <label for="caracteresEspeciales">Incluir Caracteres Especiales:</label>
-        <input type="checkbox" id="caracteresEspeciales"><br><br>
-        
-        <button type="button" onclick="generarContraseña()">Generar Contraseña</button>
+        <button type="button" onclick="calcularEstadisticas()">Calcular Estadísticas</button>
     </form>
     
-    <h2>Contraseña Generada:</h2>
-    <p id="contraseñaGenerada"></p>
+    <h2>Resultados</h2>
+    <p><strong>Promedio:</strong> <span id="promedio"></span></p>
+    <p><strong>Calificación Más Alta:</strong> <span id="maxima"></span></p>
+    <p><strong>Calificación Más Baja:</strong> <span id="minima"></span></p>
 
     <script>
-        // Función para generar caracteres aleatorios
-        function generarCaracterAleatorio(charset) {
-            var randomIndex = Math.floor(Math.random() * charset.length);
-            return charset[randomIndex];
-        }
+        function calcularEstadisticas() {
+            var gradesInput = document.getElementById("grades").value;
+            var gradesArray = gradesInput.split(',').map(Number);
 
-        function generarContraseña() {
-            var longitud = parseInt(document.getElementById("longitud").value);
-            var incluirMayusculas = document.getElementById("mayusculas").checked;
-            var incluirMinusculas = document.getElementById("minusculas").checked;
-            var incluirNumeros = document.getElementById("numeros").checked;
-            var incluirCaracteresEspeciales = document.getElementById("caracteresEspeciales").checked;
-
-            let charset = "";
-            
-            if (incluirMayusculas) {
-                charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            }
-            if (incluirMinusculas) {
-                charset += "abcdefghijklmnopqrstuvwxyz";
-            }
-            if (incluirNumeros) {
-                charset += "0123456789";
-            }
-            if (incluirCaracteresEspeciales) {
-                charset += "!@#$%^&*()-_=+[]{}|;:'\",.<>?/";
-            }
-
-            if (charset === "") {
-                alert("Debes seleccionar al menos un tipo de carácter.");
+            if (gradesArray.some(isNaN)) {
+                alert("Por favor, ingresa calificaciones válidas separadas por comas.");
                 return;
             }
 
-            let contraseñaGenerada = "";
+            var promedio = calcularPromedio(gradesArray);
+            var maxima = calcularMaxima(gradesArray);
+            var minima = calcularMinima(gradesArray);
 
-            for (let i = 0; i < longitud; i++) {
-                var caracterAleatorio = generarCaracterAleatorio(charset);
-                contraseñaGenerada += caracterAleatorio;
-            }
+            document.getElementById("promedio").textContent = promedio.toFixed(2);
+            document.getElementById("maxima").textContent = maxima;
+            document.getElementById("minima").textContent = minima;
+        }
 
-            document.getElementById("contraseñaGenerada").textContent = contraseñaGenerada;
+        function calcularPromedio(grades) {
+            var suma = grades.reduce((acc, grade) => acc + grade, 0);
+            return suma / grades.length;
+        }
+
+        function calcularMaxima(grades) {
+            return Math.max(...grades);
+        }
+
+        function calcularMinima(grades) {
+            return Math.min(...grades);
         }
     </script>
-
     
 </body>
 </html>

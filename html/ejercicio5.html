@@ -6,48 +6,80 @@
     <title>Ejercicio #5</title>
 </head>
 <body>
+    
 
-    <h1>Tabla de Multiplicar Personalizada</h1>
+    <h1>Juego de Preguntas y Respuestas</h1>
     
-    <form>
-        <label for="numero">Selecciona un número:</label>
-        <input type="number" id="numero" min="1" max="20" step="1">
-        
-        <label for="filas">Número de filas a mostrar:</label>
-        <input type="number" id="filas" min="1" max="10" step="1">
-        
-        <button type="button" onclick="generarTabla()">Generar</button>
-    </form>
-    
-    <h2>Tabla de Multiplicar</h2>
-    <div id="tablaMultiplicar"></div>
+    <button onclick="iniciarJuego()">Comenzar Juego</button>
+
+    <div id="question-container">
+        <h2 id="question"></h2>
+        <input type="text" id="answer" placeholder="Tu respuesta">
+        <button onclick="verificarRespuesta()">Responder</button>
+    </div>
+
+    <div id="result-container">
+        <h2>Resultados</h2>
+        <p>Correctas: <span id="correct-answers">0</span></p>
+        <p>Incorrectas: <span id="incorrect-answers">0</span></p>
+        <button onclick="reiniciarJuego()">Reiniciar Juego</button>
+    </div>
 
     <script>
-        function generarTabla() {var numero = parseInt(document.getElementById("numero").value);
-            var filas = parseInt(document.getElementById("filas").value);
-            var tablaMultiplicar = document.getElementById("tablaMultiplicar");
+        var preguntas = [
+            { pregunta: "¿Cuál es la capital de Francia?", respuesta: "paris" },
+            { pregunta: "¿Cuántos continentes hay en la Tierra?", respuesta: "7" },
+            { pregunta: "¿Cuál es el planeta más grande del sistema solar?", respuesta: "jupiter" },
+        ];
 
-            
-            if (isNaN(numero) || numero < 1 || numero > 20) {
-                tablaMultiplicar.innerHTML = "Por favor, ingresa un número válido entre 1 y 20.";
-            } else if (isNaN(filas) || filas < 1 || filas > 10) {
-                tablaMultiplicar.innerHTML = "Por favor, ingresa un número de filas válido entre 1 y 10.";
+        let preguntaActual = 0;
+        let respuestasCorrectas = 0;
+        let respuestasIncorrectas = 0;
+
+        function iniciarJuego() {
+            document.getElementById("question-container").style.display = "block";
+            document.getElementById("question").textContent = preguntas[preguntaActual].pregunta;
+        }
+
+        function verificarRespuesta() {
+            var respuestaUsuario = document.getElementById("answer").value.toLowerCase();
+            var respuestaCorrecta = preguntas[preguntaActual].respuesta.toLowerCase();
+
+            if (respuestaUsuario === respuestaCorrecta) {
+                respuestasCorrectas++;
             } else {
-               
-                let tablaHTML = "<table border='1'>";
-                tablaHTML += `<tr><th>Multiplicando</th><th>Resultado</th></tr>`;
+                respuestasIncorrectas++;
+            }
 
-                for (let i = 1; i <= filas; i++) {
-                    var resultado = numero * i;
-                    tablaHTML += `<tr><td>${numero} x ${i}</td><td>${resultado}</td></tr>`;
-                }
+            preguntaActual++;
 
-                tablaHTML += "</table>";
-
-                tablaMultiplicar.innerHTML = tablaHTML;
+            if (preguntaActual < preguntas.length) {
+                document.getElementById("question").textContent = preguntas[preguntaActual].pregunta;
+                document.getElementById("answer").value = "";
+            } else {
+                mostrarResultados();
             }
         }
+
+        function mostrarResultados() {
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("result-container").style.display = "block";
+            document.getElementById("correct-answers").textContent = respuestasCorrectas;
+            document.getElementById("incorrect-answers").textContent = respuestasIncorrectas;
+        }
+
+        function reiniciarJuego() {
+            preguntaActual = 0;
+            respuestasCorrectas = 0;
+            respuestasIncorrectas = 0;
+
+            document.getElementById("question-container").style.display = "none";
+            document.getElementById("result-container").style.display = "none";
+
+            document.getElementById("answer").value = "";
+            document.getElementById("correct-answers").textContent = "0";
+            document.getElementById("incorrect-answers").textContent = "0";
+        }
     </script>
-    
 </body>
 </html>

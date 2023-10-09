@@ -7,35 +7,72 @@
 </head>
 <body>
 
-    <h1>Calculadora de Interés Compuesto</h1>
+    <h1>Generador de Contraseñas Seguras</h1>
     
-    <form id="interes">
-        <label for="capitalInicial">Capital Inicial:</label>
-        <input type="number" id="capitalInicial" min="0" step="any" required><br><br>
+    <form id="password">
+        <label for="longitud">Longitud de la Contraseña:</label>
+        <input type="number" id="longitud" min="8" step="1" required><br><br>
         
-        <label for="tasaInteresAnual">Tasa de Interés Anual (%):</label>
-        <input type="number" id="tasaInteresAnual" min="0" step="any" required><br><br>
+        <label for="mayusculas">Incluir Mayúsculas:</label>
+        <input type="checkbox" id="mayusculas"><br><br>
         
-        <label for="periodoInversion">Período de Inversión (años):</label>
-        <input type="number" id="periodoInversion" min="1" step="1" required><br><br>
+        <label for="minusculas">Incluir Minúsculas:</label>
+        <input type="checkbox" id="minusculas"><br><br>
         
-        <button type="button" onclick="calcularInteresCompuesto()">Calcular</button>
+        <label for="numeros">Incluir Números:</label>
+        <input type="checkbox" id="numeros"><br><br>
+        
+        <label for="caracteresEspeciales">Incluir Caracteres Especiales:</label>
+        <input type="checkbox" id="caracteresEspeciales"><br><br>
+        
+        <button type="button" onclick="generarContraseña()">Generar Contraseña</button>
     </form>
     
-    <h2>Monto Final:</h2>
-    <p id="montoFinal"></p>
+    <h2>Contraseña Generada:</h2>
+    <p id="contraseñaGenerada"></p>
 
     <script>
-        function calcularInteresCompuesto() {
-            var capitalInicial = parseFloat(document.getElementById("capitalInicial").value);
-            var tasaInteresAnual = parseFloat(document.getElementById("tasaInteresAnual").value);
-            var periodoInversion = parseInt(document.getElementById("periodoInversion").value);
+        // Función para generar caracteres aleatorios
+        function generarCaracterAleatorio(charset) {
+            var randomIndex = Math.floor(Math.random() * charset.length);
+            return charset[randomIndex];
+        }
 
-            var tasaInteresMensual = tasaInteresAnual / 100 / 12;
-            var numeroDePagos = periodoInversion * 12;
-            var montoFinal = capitalInicial * Math.pow(1 + tasaInteresMensual, numeroDePagos);
+        function generarContraseña() {
+            var longitud = parseInt(document.getElementById("longitud").value);
+            var incluirMayusculas = document.getElementById("mayusculas").checked;
+            var incluirMinusculas = document.getElementById("minusculas").checked;
+            var incluirNumeros = document.getElementById("numeros").checked;
+            var incluirCaracteresEspeciales = document.getElementById("caracteresEspeciales").checked;
 
-            document.getElementById("montoFinal").textContent = `El monto final es: $${montoFinal.toFixed(2)}`;
+            let charset = "";
+            
+            if (incluirMayusculas) {
+                charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            }
+            if (incluirMinusculas) {
+                charset += "abcdefghijklmnopqrstuvwxyz";
+            }
+            if (incluirNumeros) {
+                charset += "0123456789";
+            }
+            if (incluirCaracteresEspeciales) {
+                charset += "!@#$%^&*()-_=+[]{}|;:'\",.<>?/";
+            }
+
+            if (charset === "") {
+                alert("Debes seleccionar al menos un tipo de carácter.");
+                return;
+            }
+
+            let contraseñaGenerada = "";
+
+            for (let i = 0; i < longitud; i++) {
+                var caracterAleatorio = generarCaracterAleatorio(charset);
+                contraseñaGenerada += caracterAleatorio;
+            }
+
+            document.getElementById("contraseñaGenerada").textContent = contraseñaGenerada;
         }
     </script>
 
